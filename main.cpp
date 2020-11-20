@@ -12,7 +12,7 @@ int main()
 
 	while (!close)
 	{
-		//system("color 01");
+		system("color 01");
 		
 		
 		std::cout << "1. Create new account\n";
@@ -24,37 +24,37 @@ int main()
 		std::cout << "7. Exit\n\n\n\n";
 		std::cout << "Enter your choice: ";
 
-		int choice;
+		char choice;
 
 		std::cin >> choice;
 		std::cout << '\n';
 
 		switch (choice)
 		{
-		case 1:
+		case '1':
 			bank.CreateAccount();
 			break;
-		case 2:
+		case '2':
 			bank.UpdateInformation();
 			break;
-		case 3:
+		case '3':
 			bank.Transaction();
 			break;
-		case 4:
+		case '4':
 			bank.CheckInformations();
 			break;
-		case 5:
+		case '5':
 			bank.RemoveAccount();
 			break;
-		case 6:
+		case '6':
 			bank.ViewCustomersList();
 			break;
-		case 7:
+		case '7':
 			close = true;
 			std::cout << "\tThank you!\n";
 			break;
 		default:
-			std::cout << "Your selection was not found. Please try again.\n\n";
+			std::cout << "Your selection was not found. Please try again.";
 
 		}
 	}

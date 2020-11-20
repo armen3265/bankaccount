@@ -16,11 +16,10 @@ class Bank
 {
 private:
 	std::list<Customer> customers;
-	//json j;
-	//string fileName = "accounts.json";
+	string fileName = "accounts.json";
 public:
-	//Bank();
-	//~Bank();
+	Bank();
+	~Bank();
 
 	void CreateAccount();
 	void UpdateInformation();

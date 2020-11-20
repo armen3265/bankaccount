@@ -2,9 +2,10 @@
 #include "Bank.h"
 #include <iomanip>
 
-/*
+
 Bank::Bank()
 {
+	json j;
 	ifstream ifs(fileName);
 	if (ifs.is_open())
 	{
@@ -34,14 +35,14 @@ Bank::Bank()
 
 Bank::~Bank()
 {
+	json j;
 	for (Customer customer : customers)
 	{
 		j[customer.GetId()]["name"] = customer.GetName();
 		j[customer.GetId()]["lastName"] = customer.GetLastName();
 		j[customer.GetId()]["balance"] = customer.GetBalance();
 	}
-	ofstream ofs(fileName);
-	ofs.open(fileName);
+	std::ofstream ofs(fileName);
 	if (ofs.is_open())
 	{
 		ofs << setw(4) << j;
@@ -52,7 +53,6 @@ Bank::~Bank()
 		std::cout << "Failed to save data to file.";
 	}
 }
-*/
 void Bank::CreateAccount()
 {
 	std::cout << "Enter Name: ";
@@ -139,7 +139,7 @@ void Bank::Transaction()
 
 	std::cout << '\n';
 
-	Customer *fromCust = nullptr, *toCust = nullptr;
+	Customer *fromCust = nullptr, * toCust = nullptr;
 
 	for (Customer& customer : customers)
 	{
@@ -201,27 +201,28 @@ void Bank::RemoveAccount()
 	std::cout << "Please enter the ID of the User you want to remove from the list: ";
 	std::string Id;
 	std::cin >> Id;
+	std::cout << '\n';
+
 	string fullName;
 	bool have = false;
+
 
 	for (Customer customer : customers)
 	{
 		if (customer.GetId() == Id)
-		{
-			customers.erase(std::remove_if(customers.begin(), customers.end(), [Id](Customer c)
-				{
-					return c.GetId() == Id;
-				}));
 			have = true;
-		}
 	}
 	if (have)
 	{
-		std::cout << "User " << fullName << " deleted successfully.\n";
+		customers.erase(std::remove_if(customers.begin(), customers.end(), [Id](Customer c)
+			{
+				return c.GetId() == Id;
+			}));
+		std::cout << "User " << fullName << " deleted successfully.\n\n";
 	}
 	else
 	{
-		std::cout << "User with this ID does not exist.\n";
+		std::cout << "User with this ID does not exist.\n\n";
 	}
 }
 void Bank::ViewCustomersList()
