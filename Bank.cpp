@@ -5,6 +5,8 @@
 
 Bank::Bank()
 {
+	//When opening the program, it checks if there is a list of users in our file.
+	//add data to json file
 	json j;
 	ifstream ifs(fileName);
 	if (ifs.is_open())
@@ -16,11 +18,16 @@ Bank::Bank()
 	{
 		std::cout << "Cannot open text file\n\n";
 	}
+
+
 	if (!j.is_null())
 	{
+		//if the data is present in the file "j", we add to our list of users.
 		for (int i = 1;; i++)
 		{
 			string Id = std::to_string(i);
+
+			//get access to data by unique user ID
 			if (!j[Id]["name"].is_null())
 			{
 				customers.push_back(Customer(j[Id]["name"], j[Id]["lastName"], j[Id]["balance"]));
@@ -35,6 +42,7 @@ Bank::Bank()
 
 Bank::~Bank()
 {
+	//when you close the program, add all the data to our file, in the json format
 	json j;
 	for (Customer customer : customers)
 	{
@@ -42,6 +50,7 @@ Bank::~Bank()
 		j[customer.GetId()]["lastName"] = customer.GetLastName();
 		j[customer.GetId()]["balance"] = customer.GetBalance();
 	}
+
 	std::ofstream ofs(fileName);
 	if (ofs.is_open())
 	{
@@ -53,6 +62,7 @@ Bank::~Bank()
 		std::cout << "Failed to save data to file.";
 	}
 }
+//Add new User
 void Bank::CreateAccount()
 {
 	std::cout << "Enter Name: ";
@@ -70,18 +80,23 @@ void Bank::CreateAccount()
 	std::cin >> balance;
 	std::cout << '\n';
 
+	//create a user and add to our list
 	Customer customer = Customer(name, lastName, balance);
 	customers.push_back(customer);
 	std::cout << "User added.\n\n";
 }
+
+//Change User information
 void Bank::UpdateInformation()
 {
 	std::cout << "Enter your user ID: ";
 	std::string Id;
 	std::cin >> Id;
 
+	//trying to find a user in our list
 	for (Customer& customer : customers)
 	{
+		//Find with ID
 		if (customer.GetId() == Id)
 		{
 			std::cout << "User ID:  " << customer.GetId() << "\tName:  " << customer.GetName() << "\tLast Name:  "
@@ -125,6 +140,8 @@ void Bank::UpdateInformation()
 		}
 	}
 }
+
+//Transactions between users
 void Bank::Transaction()
 {
 	std::cout << "User ID - from which you want to transfer money: ";
@@ -141,6 +158,7 @@ void Bank::Transaction()
 
 	Customer *fromCust = nullptr, * toCust = nullptr;
 
+	//find users
 	for (Customer& customer : customers)
 	{
 		if (customer.GetId() == IdFrom)
@@ -152,13 +170,15 @@ void Bank::Transaction()
 			toCust = &customer;
 		}
 	}
-
+	
+	//checking found all the users?
 	if (fromCust != nullptr && toCust != nullptr)
 	{
 		std::cout << "Enter the amount to transfer: ";
 		int sum;
 		std::cin >> sum;
-
+		
+		//check if so much money is present in the otpravitela account
 		if (fromCust->GetBalance() >= sum)
 		{
 			fromCust->updateBalance(fromCust->GetBalance()-sum);
@@ -178,6 +198,8 @@ void Bank::Transaction()
 	}
 	
 }
+
+//Checking information of User
 void Bank::CheckInformations()
 {
 	std::cout << "User ID: ";
@@ -185,6 +207,7 @@ void Bank::CheckInformations()
 	std::cin >> UserId;
 	std::cout << '\n';
 
+	//find user
 	for (Customer &customer : customers)
 	{
 		if (customer.GetId() == UserId)
@@ -196,6 +219,8 @@ void Bank::CheckInformations()
 		}
 	}
 }
+
+//Remove the account
 void Bank::RemoveAccount()
 {
 	std::cout << "Please enter the ID of the User you want to remove from the list: ";
@@ -204,6 +229,8 @@ void Bank::RemoveAccount()
 	std::cout << '\n';
 
 	string fullName;
+
+
 	bool have = false;
 
 
@@ -225,6 +252,8 @@ void Bank::RemoveAccount()
 		std::cout << "User with this ID does not exist.\n\n";
 	}
 }
+
+//View all list of users
 void Bank::ViewCustomersList()
 {
 	for (Customer& customer : customers)

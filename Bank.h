@@ -15,7 +15,10 @@ using namespace std;
 class Bank
 {
 private:
+
+	//create a list in which we will store our users
 	std::list<Customer> customers;
+
 	string fileName = "accounts.json";
 public:
 	Bank();

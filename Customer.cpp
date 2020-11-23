@@ -5,6 +5,8 @@ Customer::Customer(string name, string lastName, int balance)
 	this->name = name;
 	this->lastName = lastName;
 	this->balance = balance;
+
+	//adds a unique ID to the user
 	Counter++;
 	this->Id = to_string(Counter);
 }

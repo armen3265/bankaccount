@@ -12,8 +12,7 @@ int main()
 
 	while (!close)
 	{
-		system("color 01");
-		
+		//system("color 01");
 		
 		std::cout << "1. Create new account\n";
 		std::cout << "2. Update information of existing account\n";
